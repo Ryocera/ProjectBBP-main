@@ -1,35 +1,9 @@
 <?php
 require '..\config.php';
 
-class Admin {
-    private $db;
-
-    public function __construct($db) {
-        $this->db = $db;
-    }
-
-    public function getAllEntries() {
-        $query = "SELECT * FROM antrian";
-        $result = $this->db->query($query);
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function deleteEntry($id) {
-        $query = "DELETE FROM antrian WHERE id = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('i', $id);
-        $stmt->execute();
-    }
-
-    public function updateStatus($id, $status) {
-        $query = "UPDATE antrian SET status = ? WHERE id = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('si', $status, $id);
-        $stmt->execute();
-    }
-}
-
 $admin = new Admin($mysqli);
+$data = new Data();
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = (int)$_POST['id'];
@@ -65,6 +39,7 @@ $entries = $admin->getAllEntries();
     <title>Admin</title>
 </head>
 <body>
+    <!-- Side Nav-->
     <div class="wrapper">
       <aside id="sidebar">
         <div class="d-flex">
@@ -77,15 +52,9 @@ $entries = $admin->getAllEntries();
         </div>
         <ul class="sidebar-nav">
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-              <i class="bi bi-person"></i>
-              <span>Profile</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a href="admintask.php" class="sidebar-link">
-              <i class="bi bi-list-task"></i>
-              <span>Task</span>
+            <a href="admindashboard.php" class="sidebar-link">
+              <i class="bi bi-collection"></i>
+              <span>Dashboard</span>
             </a>
           </li>
           <li class="sidebar-item">
@@ -96,8 +65,8 @@ $entries = $admin->getAllEntries();
               data-bs-target="#auth"
               aria-expanded="false"
               aria-controls="auth"
-              ><i class="bi bi-shield-check"></i>
-              <span>Auth</span>
+              ><i class="bi bi-list-task"></i>
+              <span>Task</span>
             </a>
             <ul
               id="auth"
@@ -105,49 +74,13 @@ $entries = $admin->getAllEntries();
               data-bs-parent="#sidebar"
             >
               <li class="sidebar-item">
-                <a href="#" class="sidebar-link">Login</a>
+                <a href="#" class="sidebar-link">Lihat</a>
               </li>
               <li class="sidebar-item">
-                <a href="#" class="sidebar-link">Register</a>
+                <a href="tambah_a.php" class="sidebar-link">Register</a>
               </li>
-            </ul>
-          </li>
-          <li class="sidebar-item">
-            <a
-              href="#"
-              class="sidebar-link has-dropdown collapsed"
-              data-bs-toggle="collapse"
-              data-bs-target="#multi"
-              aria-expanded="false"
-              aria-controls="multi"
-              ><i class="bi bi-layout-sidebar"></i> <span>Multi Level</span></a
-            >
-            <ul
-              id="multi"
-              class="sidebar-dropdown list-unstyled collapse"
-              data-bs-parent="#sidebar"
-            >
-              <li class="sidebar-item">
-                <a
-                  href="#"
-                  class="sidebar-link collapsed"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#multi-two"
-                  aria-expanded="false"
-                  aria-controls="multi-two"
-                  >Two Links</a
-                >
-                <ul
-                  id="multi-two"
-                  class="two.sidebar-dropdown list-unstyled collapse"
-                >
-                  <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">Link 1</a>
-                  </li>
-                  <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">Link 2</a>
-                  </li>
-                </ul>
+              <li class="sidear-item">
+                <a href="admintask.php"class ="sidebar-link">Manage</a>
               </li>
             </ul>
           </li>
@@ -171,6 +104,7 @@ $entries = $admin->getAllEntries();
           </a>
         </div>
       </aside>
+    <!-- Side Nav-->
       <div class="main">
         <!-- Bagian atas-->
         <nav class="navbar navbar-expand px-4 py-3">
@@ -214,63 +148,78 @@ $entries = $admin->getAllEntries();
                 </li>
               </ul>
             </div>
-          </nav>  
-    <table border="1">
-        <tr>
-            <th>Nomor</th>
-            <th>Kategori</th>
-            <th>Lokasi</th>
-            <th>Urgensi</th>
-            <th>Deskripsi</th>
-            <th>Solusi</th>
-            <th>Status Penyelesaian</th>
-            <th>Status</th>
-            <th>Aksi</th>
-          </tr>
-        <?php $i = 1?>
-        <?php foreach($entries as $entry):?>
-          <tr>
-                <td><?= $i++; ?></td>
-                <td><?= htmlspecialchars($entry['kategori']); ?></td>
-                <td><?= htmlspecialchars($entry['lokasi']); ?></td>
-                <td><?= htmlspecialchars($entry['tingkat']); ?></td>
-                <td><?= htmlspecialchars($entry['deskripsi']); ?></td>
-                <td><?= htmlspecialchars($entry['solusi']); ?></td>
-                <td><?= htmlspecialchars($entry['penyelesaian']); ?></td>
-                <td><?= htmlspecialchars($entry['status']); ?></td>
-                <td>
-                    <form method="POST" style="display:inline;">
-                        <input type="hidden" name="id" value="<?= $entry['id'] ?>">
-                        <?php if ($entry['status'] === 'pending'): ?>
-                            <button type="submit" name="approve">Approve</button>
-                        <?php elseif ($entry['status'] === 'approved'): ?>
-                            <button type="submit" name="pending">Pending</button>
-                        <?php endif; ?>
-                    </form>
+          </nav>
+          <main class="content px-3 py-4">
+          <div class="container-fluid">
+            <div class="mb-3 mx-1">
+              <h3 class="fw-bold fs-4 mb-3">Admin Workspace</h3>
+              <div class="row">
+                <div class="col-12">        
+                  <table>
+                    <thead>
+                      <tr class="highlight">
+                        <th>Nomor</th>
+                        <th>Kategori</th>
+                        <th>Lokasi</th>
+                        <th>Urgensi</th>
+                        <th>Deskripsi</th>
+                        <th>Solusi</th>
+                        <th>Status Penyelesaian</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php $i = 1?>
+                      <?php foreach($entries as $entry):?>
+                        <tr>
+                          <td><?= $i++; ?></td>
+                          <td><?= htmlspecialchars($entry['kategori']); ?></td>
+                          <td><?= htmlspecialchars($entry['lokasi']); ?></td>
+                          <td><?= htmlspecialchars($entry['tingkat']); ?></td>
+                          <td><?= htmlspecialchars($entry['deskripsi']); ?></td>
+                          <td><?= htmlspecialchars($entry['solusi']); ?></td>
+                          <td><?= htmlspecialchars($entry['penyelesaian']); ?></td>
+                          <td><?= htmlspecialchars($entry['status']); ?></td>
+                          <td>
+                              <form method="POST" style="display:inline;">
+                                  <input type="hidden" name="id" value="<?= $entry['id'] ?>">
+                                  <?php if ($entry['status'] === 'pending'): ?>
+                                      <button type="submit" name="approve">
+                                      <i class="bi bi-hand-thumbs-up"></i>
+                                      </button>
+                                  <?php elseif ($entry['status'] === 'approved'): ?>
+                                      <button type="submit" name="pending">
+                                      <i class="bi bi-pause"></i>
+                                      </button>
+                                  <?php endif; ?>
+                              </form>
 
-                    <form method="POST" action="update.php" style="display:inline;">
-                        <input type="hidden" name="id" value="<?= $entry['id'] ?>">
-                        <button type="submit" name="update">Update</button>
-                    </form>
-                    
-                    <form method="POST" style="display:inline;">
-                        <input type="hidden" name="id" value="<?= $entry['id'] ?>">
-                        <button type="submit" name="delete">Delete</button>
-                    </form>
-                </td>
-            </tr>
-                </tr>
-        <?php endforeach; ?>
-    </table>
-                 <br>
-                    <form method="POST" action="tambah_a.php" style="display:inline;">
-                        <button type="submit" name="tambah">Tambah resiko</button>
-                    </form>
-                <br>
-            <br>
-
+                              <form method="POST" action="update.php" style="display:inline;">
+                                  <input type="hidden" name="id" value="<?= $entry['id'] ?>">
+                                  <button type="submit" name="update">
+                                  <i class="bi bi-pencil"></i>
+                                  </button>
+                              </form>
+                              
+                              <form method="POST" style="display:inline;">
+                                  <input type="hidden" name="id" value="<?= $entry['id'] ?>">
+                                  <button type="submit" name="delete">
+                                  <i class="bi bi-trash3"></i>
+                                  </button>
+                              </form>
+                                </td>
+                                </tr>
+                      <?php endforeach; ?>
+                  </tbody>
+                 </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          </main>
         <!-- Bagian bawah-->
-        <footer class="footer">
+        <footer class="footer" id="bottom-part">
             <div class="container-fluid">
               <div class="row text-body-secondary">
                 <div class="col-6 text-start">
@@ -303,5 +252,7 @@ $entries = $admin->getAllEntries();
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"></script>
     <script src="admin.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   </body>
 </html>

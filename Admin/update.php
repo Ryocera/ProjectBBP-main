@@ -72,7 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Kotak Solusi</title>
 </head>
 <body>
-<div class="wrapper">
+    <!-- Side Nav-->
+    <div class="wrapper">
       <aside id="sidebar">
         <div class="d-flex">
           <button id="toggle-btn" type="button">
@@ -84,15 +85,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <ul class="sidebar-nav">
           <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-              <i class="bi bi-person"></i>
-              <span>Profile</span>
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a href="admintask.php" class="sidebar-link">
-              <i class="bi bi-list-task"></i>
-              <span>Task</span>
+            <a href="admindashboard.php" class="sidebar-link">
+              <i class="bi bi-collection"></i>
+              <span>Dashboard</span>
             </a>
           </li>
           <li class="sidebar-item">
@@ -103,8 +98,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               data-bs-target="#auth"
               aria-expanded="false"
               aria-controls="auth"
-              ><i class="bi bi-shield-check"></i>
-              <span>Auth</span>
+              ><i class="bi bi-list-task"></i>
+              <span>Task</span>
             </a>
             <ul
               id="auth"
@@ -112,49 +107,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               data-bs-parent="#sidebar"
             >
               <li class="sidebar-item">
-                <a href="#" class="sidebar-link">Login</a>
+                <a href="#" class="sidebar-link">Lihat</a>
               </li>
               <li class="sidebar-item">
-                <a href="#" class="sidebar-link">Register</a>
+                <a href="tambah_a.php" class="sidebar-link">Register</a>
               </li>
-            </ul>
-          </li>
-          <li class="sidebar-item">
-            <a
-              href="#"
-              class="sidebar-link has-dropdown collapsed"
-              data-bs-toggle="collapse"
-              data-bs-target="#multi"
-              aria-expanded="false"
-              aria-controls="multi"
-              ><i class="bi bi-layout-sidebar"></i> <span>Multi Level</span></a
-            >
-            <ul
-              id="multi"
-              class="sidebar-dropdown list-unstyled collapse"
-              data-bs-parent="#sidebar"
-            >
-              <li class="sidebar-item">
-                <a
-                  href="#"
-                  class="sidebar-link collapsed"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#multi-two"
-                  aria-expanded="false"
-                  aria-controls="multi-two"
-                  >Two Links</a
-                >
-                <ul
-                  id="multi-two"
-                  class="two.sidebar-dropdown list-unstyled collapse"
-                >
-                  <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">Link 1</a>
-                  </li>
-                  <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">Link 2</a>
-                  </li>
-                </ul>
+              <li class="sidear-item">
+                <a href="admintask.php"class ="sidebar-link">Manage</a>
               </li>
             </ul>
           </li>
@@ -178,6 +137,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           </a>
         </div>
       </aside>
+    <!-- Side Nav-->
       <div class="main">
         <!-- Bagian atas-->
         <nav class="navbar navbar-expand px-4 py-3">
@@ -222,11 +182,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               </ul>
             </div>
           </nav>
-    <div class="container">
+          <main class="contetn px-3 py-4">
+        <div class="container-fluid">
+        <div class="mb-3">
         <h2>Update</h2>
 
         <?php if ($dat): ?>
-        <table>
+        <table id="update-table">
             <thead>
                 <tr>
                     <th>Kategori</th>
@@ -269,7 +231,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h3>Solusi</h3>
         <form method="POST" action="">
             <input type="hidden" name="id" value="<?= $dat['id']; ?>">
-            <textarea name="solusi" id="solusi" rows="5" placeholder="Solusi..." required><?= htmlspecialchars($dat['solusi']); ?></textarea>
+            <textarea id ="solutionbox" name="solusi" id="solusi" rows="5" placeholder="Solusi..." required><?= htmlspecialchars($dat['solusi']); ?></textarea>
             <br><br>
             <button type="submit">Kirim Solusi</button>
         </form>
@@ -277,9 +239,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php else: ?>
             <p>Record tidak ditemukan.</p>
         <?php endif; ?>
-
-    </div>
-    <footer class="footer">
+            </div>
+          </div>
+        </main>
+    <footer class="footer" id="bottom-part">
             <div class="container-fluid">
               <div class="row text-body-secondary">
                 <div class="col-6 text-start">

@@ -1,7 +1,7 @@
 <?php
     if(isset($_POST["login"])) {
         if($_POST["username"] == "admin" && $_POST["password"] == "123") {
-            header("Location: Admin\admin.php");
+            header("Location: Admin\admindashboard.php");
             exit;
         } elseif ($_POST["username"] == "user" && $_POST["password"] == "456") {
             header("Location: User\user.php");

@@ -276,3 +276,23 @@ tr:hover {
 th:first-child, td:first-child {
   text-align: center;
 }
+#bottom-part {
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 70px);
+  transition: width 0.25s ease-in-out;
+}
+
+#sidebar.expand ~ .main #bottom-part {
+  width: calc(100% - 260px);
+}
+#update-table{
+  width: 70%;
+}
+#solutionbox{
+  width: 60%;
+}
+.table{
+left: 50px;
+right: 50px;
+}
