@@ -138,8 +138,8 @@
                 <div class="col-12 col-md-4">
                   <div class="card border-0">
                     <div class="card-body py-4">
-                      <h5 class="mb-2 fw-bold">Members Progress</h5>
-                      <p class="mb-2 fw-bold">$72,540</p>
+                      <h5 class="mb-2 fw-bold">Task progress</h5>
+                      <p class="mb-2 fw-bold">7 Task menunggu</p>
                       <div class="mb-0">
                         <span class="badge text-success me-2"> +9.0% </span>
                         <span class="fw-bold"> Since Last Month </span>
@@ -150,8 +150,8 @@
                 <div class="col-12 col-md-4">
                   <div class="card border-0">
                     <div class="card-body py-4">
-                      <h5 class="mb-2 fw-bold">Members Progress</h5>
-                      <p class="mb-2 fw-bold">$72,540</p>
+                      <h5 class="mb-2 fw-bold">Task Progress</h5>
+                      <p class="mb-2 fw-bold">5 task selesai</p>
                       <div class="mb-0">
                         <span class="badge text-success me-2"> +9.0% </span>
                         <span class="fw-bold"> Since Last Month </span>
@@ -172,22 +172,22 @@
                   </div>
                 </div>
               </div>
-              <h3 class="fw-bold fs-4 my-3">KELOMPOK KITA</h3>
+              <h3 class="fw-bold fs-4 my-3">Average</h3>
               <div class="row">
                 <div class="col-12">
                   <table class="table table-striped">
                     <thead>
                       <tr class="highlight">
                         <th scope="col">#</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">NIM</th>
-                        <th scope="col">ROLE</th>
+                        <th scope="col">firstname</th>
+                        <th scope="col">lastname</th>
+                        <th scope="col">email</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <th scope="row">1</th>
-                        <td>Herdin Torik</td>
+                        <td>Joko</td>
                         <td>Otto</td>
                         <td>@mdo</td>
                       </tr>
