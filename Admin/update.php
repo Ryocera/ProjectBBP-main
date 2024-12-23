@@ -1,57 +1,34 @@
 <?php
 require '..\config.php';
 
+$antrian = new Update($mysqli);
 $id = isset($_POST['id']) ? (int)$_POST['id'] : (isset($_GET['id']) ? (int)$_GET['id'] : 0);
-
-$query = "SELECT * FROM antrian WHERE id = $id";
-$result = $mysqli->query($query);
-$dat = $result->fetch_assoc();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['urgensi']) && isset($_POST['id'])) {
         $urgensi = htmlspecialchars($_POST['urgensi']);
         $id = (int)$_POST['id'];
-
-        $updateQuery = "UPDATE antrian SET tingkat = ? WHERE id = ?";
-        if ($stmt = $mysqli->prepare($updateQuery)) {
-            $stmt->bind_param("si", $urgensi, $id);
-            $stmt->execute();
-            $stmt->close();
-        }
+        $antrian->updateUrgensi($id, $urgensi);
     }
 
     if (isset($_POST['status']) && isset($_POST['id'])) {
         $status = htmlspecialchars($_POST['status']);
         $id = (int)$_POST['id'];
-
-        $updateQuery = "UPDATE antrian SET penyelesaian = ? WHERE id = ?";
-        if ($stmt = $mysqli->prepare($updateQuery)) {
-            $stmt->bind_param("si", $status, $id);
-            $stmt->execute();
-            $stmt->close();
-        }
+        $antrian->updateStatus($id, $status);
     }
 
     if (isset($_POST['solusi']) && isset($_POST['id'])) {
         $solusi = htmlspecialchars($_POST['solusi']);
         $id = (int)$_POST['id'];
+        $antrian->updateSolusi($id, $solusi);
 
-        $updateQuery = "UPDATE antrian SET solusi = ? WHERE id = ?";
-        if ($stmt = $mysqli->prepare($updateQuery)) {
-            $stmt->bind_param("si", $solusi, $id);
-            $stmt->execute();
-            $stmt->close();
-
-            header("Location: admin.php");
-            exit;
-        }
+        header("Location: admintask.php");
+        exit;
     }
 
-    $result = $mysqli->query("SELECT * FROM antrian WHERE id = $id");
-    $dat = $result->fetch_assoc();
+    $dat = $antrian->getAntrianById($id);
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -68,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
     />
-    <link rel="stylesheet" href="admin.css" />
+    <link rel="stylesheet" href="tambah.css" />
     <title>Kotak Solusi</title>
 </head>
 <body>
@@ -182,66 +159,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               </ul>
             </div>
           </nav>
-          <main class="contetn px-3 py-4">
+        <main class="content px-3 py-4">
         <div class="container-fluid">
         <div class="mb-3">
-        <h2>Update</h2>
-
-        <?php if ($dat): ?>
-        <table id="update-table">
-            <thead>
-                <tr>
-                    <th>Kategori</th>
-                    <th>Lokasi</th>
-                    <th>Urgensi</th>
-                    <th>Deskripsi</th>
-                    <th>Status Penyelesaian</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><?= htmlspecialchars($dat['kategori']); ?></td>
-                    <td><?= htmlspecialchars($dat['lokasi']); ?></td>
-                    <td>
-                        <form method="POST" action="">
-                            <input type="hidden" name="id" value="<?= $id; ?>" />
-                            <select name="urgensi" onchange="this.form.submit()">
-                                <option value="Berat" <?= $dat['tingkat'] == 'Berat' ? 'selected' : ''; ?>>Berat</option>
-                                <option value="Sedang" <?= $dat['tingkat'] == 'Sedang' ? 'selected' : ''; ?>>Sedang</option>
-                                <option value="Ringan" <?= $dat['tingkat'] == 'Ringan' ? 'selected' : ''; ?>>Ringan</option>
-                            </select>
-                        </form>
-                    </td>
-                    <td><?= htmlspecialchars($dat['deskripsi']); ?></td>
-                    <td>
-                        <form method="POST" action="">
-                            <input type="hidden" name="id" value="<?= $id; ?>" />
-                            <select name="status" onchange="this.form.submit()">
-                                <option value="Selesai" <?= $dat['penyelesaian'] == 'Selesai' ? 'selected' : ''; ?>>Selesai</option>
-                                <option value="Proses" <?= $dat['penyelesaian'] == 'Proses' ? 'selected' : ''; ?>>Proses</option>
-                                <option value="Menunggu" <?= $dat['penyelesaian'] == 'Menunggu' ? 'selected' : ''; ?>>Menunggu</option>
-                            </select>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <br>
-        <h3>Solusi</h3>
-        <form method="POST" action="">
-            <input type="hidden" name="id" value="<?= $dat['id']; ?>">
-            <textarea id ="solutionbox" name="solusi" id="solusi" rows="5" placeholder="Solusi..." required><?= htmlspecialchars($dat['solusi']); ?></textarea>
-            <br><br>
-            <button type="submit">Kirim Solusi</button>
-        </form>
-
-        <?php else: ?>
-            <p>Record tidak ditemukan.</p>
-        <?php endif; ?>
+          <div class="box1">
+            <h3 class="fw-bold fs-4 mb-3 text text-center"> Update Data</h3>
+            <form method="POST" action="">
+            <input type="hidden" name="id" value="<?= $id; ?>" />
+              <div class="form-regis mb-3">
+                <label for="kategori">Kategori</label>
+                <textarea readonly><?= htmlspecialchars($dat['kategori']); ?></textarea>
+              </div>
+              <div class="form-regis mb-3">
+                <label for="lokasi">Lokasi</label>
+                <textarea readonly><?= htmlspecialchars($dat['lokasi']); ?></textarea>
+              </div>
+              <div class="form-regis">
+                <label for="deskripsi">Deskripsi</label>
+                <textarea readonly><?= htmlspecialchars($dat['deskripsi']); ?></textarea>
+              </div>
+              <div class="form-regis mb-3">
+                <label for="tingkat">Urgensi</label>
+                <select name="urgensi" onchange="this.form.submit()">
+                    <option value="Berat" <?= $dat['tingkat'] == 'Berat' ? 'selected' : ''; ?>>Berat</option>
+                    <option value="Sedang" <?= $dat['tingkat'] == 'Sedang' ? 'selected' : ''; ?>>Sedang</option>
+                    <option value="Ringan" <?= $dat['tingkat'] == 'Ringan' ? 'selected' : ''; ?>>Ringan</option>
+                  </select>
+              </div>
+              <div class="form-regis mb-3">
+                <label for="Penyelesaian">Status</label>
+                  <select name="status" onchange="this.form.submit()">
+                    <option value="Selesai" <?= $dat['penyelesaian'] == 'Selesai' ? 'selected' : ''; ?>>Selesai</option>
+                    <option value="Proses" <?= $dat['penyelesaian'] == 'Proses' ? 'selected' : ''; ?>>Proses</option>
+                    <option value="Menunggu" <?= $dat['penyelesaian'] == 'Menunggu' ? 'selected' : ''; ?>>Menunggu</option>
+                  </select>                   
+              </div>
+              <div class="form-regis mb-3">
+                <label for="solusi">Solusi</label>
+                <textarea
+                name="solusi"
+                id="solusi"
+                required
+                ></textarea>
+              </div>
+              <br>
+              <button type="submit" name="submit" class="tombol btn-primary w-100">Kirim</button>
+              <br>
+              <button id="kembalibtn">
+                <a href="admintask.php" style="color:white">Kembali</a>
+              </button>
+              </form>
             </div>
           </div>
-        </main>
+        </div>
+      </main>
     <footer class="footer" id="bottom-part">
             <div class="container-fluid">
               <div class="row text-body-secondary">
@@ -249,19 +220,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <a href="#" class="text-body-secondary">
                     <strong>Risk Management System</strong>
                   </a>
-                </div>
-                <div class="col-6 text-end text-body-secondary d-none d-md-block">
-                  <ul class="list-inline mb-0">
-                    <li class="list-inline-item">
-                      <a href="#" class="text-body-secondary">Contact</a>
-                    </li>
-                  </ul>
-                  <li class="list-inline-item">
-                    <a href="#" class="text-body-secondary">About Us</a>
-                  </li>
-                  <li class="list-inline-item">
-                    <a href="#" class="text-body-secondary">Term & Conditions</a>
-                  </li>
                 </div>
               </div>
             </div>
