@@ -155,7 +155,7 @@ $entries = $admin->getAllEntries();
               <h3 class="fw-bold fs-4 mb-3">Admin Workspace</h3>
               <div class="row">
                 <div class="col-12">        
-                  <table>
+                  <table id="risktable">
                     <thead>
                       <tr class="highlight">
                         <th>Nomor</th>

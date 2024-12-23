@@ -2,15 +2,21 @@
 require '..\config.php';
 $data = new Data();
 
-$enumKategori = $data ->enum('kategori'); $enumLokasi = $data -> enum('lokasi');
-$enumUrgensi = $data ->enum('tingkat'); $enumPenyelesaian = $data ->
-enum('penyelesaian'); if($_SERVER['REQUEST_METHOD'] === 'POST' &&
-isset($_POST['submit'])) { $kategori = $_POST['kategori']; $lokasi =
-$_POST['lokasi']; $tingkat = $_POST['tingkat']; $deskripsi =
-$_POST['deskripsi']; $query = "INSERT INTO antrian (kategori,lokasi, tingkat,
-deskripsi) VALUES ('$kategori', '$lokasi', '$tingkat','$deskripsi')"; if
-($mysqli->query($query) === TRUE) { echo "Data berhasil disimpan."; } else {
-echo "Terjadi kesalahan dalam menyimpan data."; } } ?>
+$enumKategori = $data ->enum('kategori'); 
+$enumLokasi = $data -> enum('lokasi');
+$enumUrgensi = $data ->enum('tingkat'); 
+$enumPenyelesaian = $data ->enum('penyelesaian'); 
+if($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) { 
+  $kategori = $_POST['kategori']; 
+  $lokasi =$_POST['lokasi']; 
+  $tingkat = $_POST['tingkat']; 
+  $deskripsi =$_POST['deskripsi']; 
+
+  $query = "INSERT INTO antrian (kategori,lokasi, tingkat,deskripsi) VALUES ('$kategori', '$lokasi', '$tingkat','$deskripsi')"; 
+  if ($mysqli->query($query) === TRUE) { echo "Data berhasil disimpan."; } else {
+    echo "Terjadi kesalahan dalam menyimpan data."; } 
+    } 
+?>
 
 <!DOCTYPE html>
 <html lang="en">
