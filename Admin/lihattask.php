@@ -1,3 +1,9 @@
+<?php 
+require '..\config.php';
+
+$hasil = $mysqli->query("SELECT * FROM antrian WHERE status = 'approved'");
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -131,84 +137,43 @@
           </div>
         </nav>
         <main class="content px-3 py-4">
-          <div class="container-fluid">
-            <div class="mb-3">
-              <h3 class="fw-bold fs-4 mb-3">Admin Dashboard</h3>
-              <div class="row">
-                <div class="col-12 col-md-4">
-                  <div class="card border-0">
-                    <div class="card-body py-4">
-                      <h5 class="mb-2 fw-bold">Members Progress</h5>
-                      <p class="mb-2 fw-bold">$72,540</p>
-                      <div class="mb-0">
-                        <span class="badge text-success me-2"> +9.0% </span>
-                        <span class="fw-bold"> Since Last Month </span>
-                      </div>
+            <div class="container-fluid">
+                <div class="mb-3 mx-1">
+                    <h3 class="fw-bold fs-4 mb-3">Risk Table</h3>
+                    <div class="row">
+                        <div class="col-12">
+                            <table>
+                                <tr>
+                                    <th>Nomor</th>
+                                    <th>Kategori</th>
+                                    <th>Lokasi</th>
+                                    <th>Urgensi</th>
+                                    <th>Deskripsi</th>
+                                    <th>Solusi</th>
+                                    <th>Status Penyelesaian</th>
+                                </tr>
+                                <?php $i = 1 ?>
+                                <?php while ($row = $hasil->fetch_assoc()): ?>
+                                    <tr>
+                                        <td><?= $i; ?></td>
+                                        <td><?= $row['kategori'] ?></td>
+                                        <td><?= $row['lokasi'] ?></td>
+                                        <td><?= $row['tingkat'] ?></td>
+                                        <td><?= $row['deskripsi'] ?></td>
+                                        <td><?= $row['solusi'] ?></td>
+                                        <td><?= $row['penyelesaian'] ?></td>
+                                        <?php $i++; ?>
+                                    </tr>
+                                <?php endwhile; ?>
+                            </table>
+                        </div>
                     </div>
-                  </div>
                 </div>
-                <div class="col-12 col-md-4">
-                  <div class="card border-0">
-                    <div class="card-body py-4">
-                      <h5 class="mb-2 fw-bold">Members Progress</h5>
-                      <p class="mb-2 fw-bold">$72,540</p>
-                      <div class="mb-0">
-                        <span class="badge text-success me-2"> +9.0% </span>
-                        <span class="fw-bold"> Since Last Month </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 col-md-4">
-                  <div class="card border-0">
-                    <div class="card-body py-4">
-                      <h5 class="mb-2 fw-bold">Members Progress</h5>
-                      <p class="mb-2 fw-bold">$72,540</p>
-                      <div class="mb-0">
-                        <span class="badge text-success me-2"> +9.0% </span>
-                        <span class="fw-bold"> Since Last Month </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h3 class="fw-bold fs-4 my-3">KELOMPOK KITA</h3>
-              <div class="row">
-                <div class="col-12">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr class="highlight">
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
             </div>
-          </div>
         </main>
+        <!-- Main Content -->
+
+        <!--Footer-->
         <footer class="footer" id="bottom-part">
           <div class="container-fluid">
             <div class="row text-body-secondary">

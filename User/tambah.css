@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap");
 
 ::after,
 ::before {
@@ -17,6 +18,7 @@ li {
 
 body {
   font-family: "Poppins", sans-serif;
+  background-color: #faf8f1;
 }
 
 .wrapper {
@@ -25,17 +27,6 @@ body {
 
 aside #sidebar {
   z-index: 2000;
-}
-
-.main {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  width: 100%;
-  overflow: hidden;
-  transition: all 0.35s ease-in-out;
-  background-color: #fff;
-  min-width: 0;
 }
 
 #sidebar {
@@ -199,48 +190,86 @@ a.sidebar-link:hover {
   width: 40px;
 }
 
-.card {
-  background: #f5f5f5;
-  transition: 0.4s;
-  cursor: pointer;
-  color: #000;
-  margin-bottom: 1rem;
-}
-
-.card h2 {
-  margin-bottom: 5px;
-  font-size: 20px;
-  color: #222;
-  text-align: center;
-}
-
-canvas {
-  max-width: 100%;
-  max-height: 400px; /* Sesuaikan tinggi maksimal */
-  width: 100%; /* Ukuran akan menyesuaikan container */
-  height: auto; /* Tinggi otomatis sesuai skala */
-}
-
-.accepted {
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   width: 100%;
-  overflow-x: auto;
+  overflow: hidden;
+  transition: all 0.35s ease-in-out;
+  background-color: #faf8f1;
+  min-width: 0;
 }
 
-.nambah {
-  border: 1px solid #254336; /* Contoh border dengan warna biru */
-  padding: 10px 20px; /* Padding untuk membuat tombol lebih besar */
-  border-radius: 10px; /* Membuat sudut tombol melengkung */
-  background-color: #254336; /* Warna latar belakang */
-  color: white; /* Warna teks */
-  cursor: pointer; /* Mengubah cursor saat hover */
-  transition: background-color 0.3s; /* Efek transisi untuk perubahan warna */
-}
-.nambah:hover {
-  background-color: #b2c9ad; /* Warna latar belakang saat hover */
+.box1 {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Poppins", sans-serif;
+  color: #043927;
 }
 
-.content {
-  flex: 1 1 auto;
+.box1 h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  color: #043927;
+}
+
+.form-regis {
+  margin-bottom: 15px;
+}
+
+.form-regis label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #043927;
+}
+
+.form-regis select,
+.form-regis textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fafafa;
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+.form-regis select:focus,
+.form-regis textarea:focus {
+  border-color: #043927;
+  box-shadow: 0 0 5px rgba(4, 57, 39, 0.3);
+  outline: none;
+}
+
+.form-regis textarea {
+  resize: none;
+}
+
+.tombol {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #043927;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tombol:hover {
+  background-color: #035f3c;
 }
 
 footer {
@@ -277,5 +306,21 @@ footer {
 
   .navbar-expand .navbar-nav .dropdown-menu {
     box-shadow: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.05);
+  }
+}
+
+@media (max-width: 880px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .charts {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .cards {
+    grid-template-columns: 1fr;
   }
 }

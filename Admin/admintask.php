@@ -74,7 +74,7 @@ $entries = $admin->getAllEntries();
               data-bs-parent="#sidebar"
             >
               <li class="sidebar-item">
-                <a href="#" class="sidebar-link">Lihat</a>
+                <a href="lihattask.php" class="sidebar-link">Lihat</a>
               </li>
               <li class="sidebar-item">
                 <a href="tambah_a.php" class="sidebar-link">Register</a>
